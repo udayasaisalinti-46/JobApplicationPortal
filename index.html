@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Job Application Portal</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+max-width:800px;
+margin:auto;
+padding:20px;
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:8px 0;
+box-sizing:border-box;
+}
+
+button{
+background:#28a745;
+color:white;
+padding:12px;
+border:none;
+width:100%;
+cursor:pointer;
+}
+
+button:hover{
+background:#218838;
+}
+
+#message{
+margin-top:15px;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Software Developer</h1>
+
+<p><b>Company:</b> Demo Technologies Pvt Ltd</p>
+<p><b>Location:</b> Hyderabad</p>
+<p><b>Experience:</b> 0-2 Years</p>
+<p><b>Skills:</b> Java, SQL, HTML, CSS</p>
+
+<h2>Apply Now</h2>
+
+<form id="jobForm">
+
+<input id="fullName" placeholder="Full Name" required>
+
+<input id="email" type="email" placeholder="Email Address" required>
+
+<input id="phoneNumber" placeholder="Phone Number" required>
+
+<input id="qualification" placeholder="Qualification" required>
+
+<input id="experience" placeholder="Years of Experience" required>
+
+<input id="skills" placeholder="Skills" required>
+
+<textarea id="coverLetter" placeholder="Cover Letter" rows="5"></textarea>
+
+<button type="submit">Apply Now</button>
+
+</form>
+
+<p id="message"></p>
+
+<script>
+
+const apiUrl =
+"https://55b6jz2pe2.execute-api.ap-south-1.amazonaws.com/prod/apply";
+
+document.getElementById("jobForm")
+.addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const data = {
+fullName: document.getElementById("fullName").value,
+email: document.getElementById("email").value,
+phoneNumber: document.getElementById("phoneNumber").value,
+qualification: document.getElementById("qualification").value,
+experience: document.getElementById("experience").value,
+skills: document.getElementById("skills").value,
+coverLetter: document.getElementById("coverLetter").value
+};
+
+try{
+
+const response = await fetch(apiUrl,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify(data)
+});
+
+const result = await response.json();
+
+document.getElementById("message").innerText =
+result.message;
+
+}
+catch(error){
+
+document.getElementById("message").innerText =
+"Error submitting application";
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
